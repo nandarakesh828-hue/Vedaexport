@@ -7,6 +7,10 @@ const orderSchema = new mongoose.Schema(
     totalAmount: Number,
     paymentMethod: String,
     paymentStatus: String,
+    orderStatus: {
+      type: String,
+      default: "Processing"
+    },
     address: Object
   },
   { timestamps: true }

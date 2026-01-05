@@ -16,6 +16,7 @@ const orderRoutes = require("./routes/order.routes");
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/orders", orderRoutes);
+app.use("/uploads", express.static("uploads"));
 
 // test route
 app.get("/", (req, res) => {
