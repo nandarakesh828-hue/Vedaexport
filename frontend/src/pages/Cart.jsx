@@ -1,37 +1,53 @@
 import { useContext } from "react";
 import { CartContext } from "../context/CartContext";
+import axios from "axios";
 
 export default function Cart() {
   const { cart } = useContext(CartContext);
   const total = cart.reduce((a, b) => a + b.price, 0);
 
+  const razorpayPay = async () => {
+    const { data } = await axios.post(
+      `${import.meta.env.VITE_API_URL}/api/orders/razorpay`,
+      { amount: total },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+      }
+    );
+
+    const options = {
+      key: import.meta.env.VITE_RAZORPAY_KEY,
+      amount: data.amount,
+      currency: "INR",
+      name: "Veda Export",
+      handler: () => alert("Payment Successful")
+    };
+
+    new window.Razorpay(options).open();
+  };
+
+  const whatsappCOD = () => {
+    const msg = `New COD Order\nTotal: ₹${total}`;
+    window.open(`https://wa.me/91XXXXXXXXXX?text=${encodeURIComponent(msg)}`);
+  };
+
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-4">Your Cart</h1>
+    <div className="p-6">
+      <h1 className="text-xl font-bold">Cart</h1>
+      {cart.map((p, i) => (
+        <p key={i}>{p.name} - ₹{p.price}</p>
+      ))}
+      <h2 className="font-bold mt-4">Total: ₹{total}</h2>
 
-      <div className="bg-white rounded-xl shadow p-4">
-        {cart.map((p, i) => (
-          <div key={i} className="flex justify-between border-b py-2">
-            <span>{p.name}</span>
-            <span>₹{p.price}</span>
-          </div>
-        ))}
+      <button onClick={razorpayPay} className="bg-blue-600 text-white px-4 py-2 mt-4">
+        Pay Online
+      </button>
 
-        <div className="flex justify-between font-bold mt-4">
-          <span>Total</span>
-          <span className="text-orange-600">₹{total}</span>
-        </div>
-
-        <div className="flex gap-4 mt-6">
-          <button className="btn-primary w-full">
-            Pay Online
-          </button>
-          <button className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded w-full">
-            COD (WhatsApp)
-          </button>
-        </div>
-      </div>
+      <button onClick={whatsappCOD} className="bg-green-600 text-white px-4 py-2 mt-2">
+        COD via WhatsApp
+      </button>
     </div>
   );
 }
-
