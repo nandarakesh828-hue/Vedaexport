@@ -10,10 +10,10 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-module.exports = async ({ subject, html }) => {
+module.exports = async ({ to, subject, html }) => {
   await transporter.sendMail({
     from: `"Veda Export" <${process.env.EMAIL_USER}>`,
-    to: process.env.ADMIN_EMAIL,
+    to,
     subject,
     html,
   });
