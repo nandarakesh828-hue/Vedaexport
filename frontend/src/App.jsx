@@ -5,6 +5,9 @@ import Register from "./pages/Register";
 import Cart from "./pages/Cart";
 import Admin from "./pages/Admin";
 import Navbar from "./components/Navbar";
+import Orders from "./pages/Orders";
+import AdminOrders from "./pages/AdminOrders";
+import AdminAddProduct from "./pages/AdminAddProduct";
 
 export default function App() {
   return (
@@ -16,6 +19,9 @@ export default function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/admin" element={<Admin />} />
+        <Route path="/orders" element={<Orders />} />
+        <Route path="/admin/orders" element={<AdminOrders />} />
+        <Route path="/admin/add-product" element={<AdminAddProduct />} />
       </Routes>
     </BrowserRouter>
   );

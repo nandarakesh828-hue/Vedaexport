@@ -10,11 +10,18 @@ export default function Admin() {
   }, []);
 
   return (
-    <div className="p-6">
-      <h1 className="text-xl font-bold">Admin Dashboard</h1>
-      {products.map(p => (
-        <p key={p._id}>{p.name} - ₹{p.price}</p>
-      ))}
+    <div className="max-w-6xl mx-auto p-6">
+      <h1 className="text-2xl font-bold mb-4">Admin Dashboard</h1>
+
+      <div className="bg-white shadow rounded-xl p-4">
+        {products.map(p => (
+          <div key={p._id} className="flex justify-between border-b py-2">
+            <span>{p.name}</span>
+            <span className="font-semibold">₹{p.price}</span>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
+
